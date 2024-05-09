@@ -1,0 +1,27 @@
+create database hel11;
+use hel11;
+create table stud11(roll_no int,namest char(30), marks int);
+insert into stud11 values(1,"sa",70),(2,"ba",80),(3,"fam",50);
+delimiter //
+create procedure grades()
+begin
+declare flag int default 0;
+declare student_id,marks int;
+declare studname varchar(60);
+declare cur cursor for select roll_no,namest,marks from stud11;
+declare continue handler for not found set flag= 1;
+
+open cur;
+read_loop:LOOP
+ FETCH cur into student_id,studname,marks;
+ if flag then LEAVE read_loop;
+ end if;
+ 
+ end LOOP;
+ close cur;
+ END //
+ delimiter ; 
+ 
+ call grades();
+ 
+ drop database hel;
